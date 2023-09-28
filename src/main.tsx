@@ -10,6 +10,7 @@ import './index.css'
 import Layout from './layouts/Layout';
 import NoLayout from './layouts/NoLayout';
 import Users from './pages/Users';
+import WorkClock from './pages/WorkClock';
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <Dashboard />
+          },
+          {
+            path: "work-clock",
+            element: <WorkClock />
           },
 
         ]

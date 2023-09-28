@@ -1,19 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ChatBubbleLeftRightIcon,
-  ExclamationTriangleIcon,
   HomeIcon,
-  InformationCircleIcon,
-  ListBulletIcon,
-  MapPinIcon,
-  PlusIcon,
-  QuestionMarkCircleIcon,
-  TagIcon,
-  UserPlusIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
 import RenderIfAId from '../utils/RenderIfAId';
+import { ClockIcon } from '@heroicons/react/24/outline';
 
 interface SidebarProps {}
 
@@ -25,10 +17,16 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <HomeIcon className="block h-6 w-6 flex-start" aria-hidden="true" />
         <span className="flex-end">Home</span>
       </Link>
-      <RenderIfAId aId={3}>
+      <RenderIfAId aIdSup={3}>
       <Link to="/admin/users" className="flex flex-row gap-4 p-4 no-underline">
         <UsersIcon className="block h-6 w-6 flex-start" aria-hidden="true" />
         <span className="flex-end">Utilisateurs</span>
+      </Link>
+      </RenderIfAId>
+      <RenderIfAId aIdEqual={1}>
+      <Link to="/employee/work-clock" className="flex flex-row gap-4 p-4 no-underline">
+        <ClockIcon className="block h-6 w-6 flex-start" aria-hidden="true" />
+        <span className="flex-end">Pointage</span>
       </Link>
       </RenderIfAId>
     </div>
