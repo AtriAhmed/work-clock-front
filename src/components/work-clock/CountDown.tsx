@@ -12,7 +12,11 @@ const CountDown: React.FC<CountDownProps> = ({ startFrom, run }) => {
     const currentMilliseconds = Date.now();
     const elapsedMilliseconds = -1 * (currentMilliseconds - (startFrom + currentMilliseconds));
     const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
+    if(elapsedSeconds > 0)
     setTimerInSeconds(elapsedSeconds);
+  else 
+  setTimerInSeconds(0)
+
   },[startFrom])
 
   useEffect(() => {

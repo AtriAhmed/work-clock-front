@@ -29,6 +29,12 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <span className="flex-end">Pointage</span>
       </Link>
       </RenderIfAId>
+      <RenderIfAId aIdEqual={1}>
+      <Link to="/employee/work-attendance" className="flex flex-row gap-4 p-4 no-underline">
+        <ClockIcon className="block h-6 w-6 flex-start" aria-hidden="true" />
+        <span className="flex-end">Histoire de presence</span>
+      </Link>
+      </RenderIfAId>
     </div>
   );
 };

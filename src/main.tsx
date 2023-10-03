@@ -11,6 +11,7 @@ import Layout from './layouts/Layout';
 import NoLayout from './layouts/NoLayout';
 import Users from './pages/Users';
 import WorkClock from './pages/WorkClock';
+import WorkAttendace from './pages/WorkAttendance';
 
 
 const router = createBrowserRouter([
@@ -55,7 +56,10 @@ const router = createBrowserRouter([
             path: "work-clock",
             element: <WorkClock />
           },
-
+          {
+            path: "work-attendance",
+            element: <WorkAttendace />
+          },
         ]
       },
       {

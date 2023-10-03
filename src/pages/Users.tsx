@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Card from '../components/Card';
-import TableCmp from '../components/TableCmp';
+import TableCmp from '../components/Table';
 
 export default function Users(){
   const [users, setUsers] = useState<any[]>([]);

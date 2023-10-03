@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Card from '../components/Card'
-import TableCmp from '../components/TableCmp'
+import TableCmp from '../components/Table'
 import axios from 'axios';
 import CountUp from '../components/work-clock/CountUp';
 import CountDown from '../components/work-clock/CountDown';
+import WeekCountDown from '../components/work-clock/WeekCountDown';
+import timeDifference from '../utils/timeDifference';
 
 
 interface WorkLog {
@@ -12,42 +14,19 @@ interface WorkLog {
     endTime: Date | null;
   }
 
-  function timeDifference(startTime:any, endTime:any) {
-    const [startTimeHours, startTimeMinutes, startTimeSeconds] = startTime.split(':');
-    const [endTimeHours, endTimeMinutes, endTimeSeconds] = endTime.split(':');
-  
-    // Convert the time parts to seconds
-    const startTimeInSeconds =
-      parseInt(startTimeHours, 10) * 3600 +
-      parseInt(startTimeMinutes, 10) * 60 +
-      parseInt(startTimeSeconds, 10);
-  
-    const endTimeInSeconds =
-      parseInt(endTimeHours, 10) * 3600 +
-      parseInt(endTimeMinutes, 10) * 60 +
-      parseInt(endTimeSeconds, 10);
-  
-    // Calculate the time difference in seconds
-    const timeDifferenceInSeconds = endTimeInSeconds - startTimeInSeconds;
-  
-    // Convert the time difference back to hh:mm:ss format
-    const hours = Math.floor(timeDifferenceInSeconds / 3600);
-    const minutes = Math.floor((timeDifferenceInSeconds % 3600) / 60);
-    const seconds = timeDifferenceInSeconds % 60;
-  
-    // Format the result as hh:mm:ss
-    const formattedResult = `${String(hours).padStart(2, '0')}:${String(
-      minutes
-    ).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  
-    return formattedResult;
-  }
-
 export default function WorkClock() {
+
+  const [weekWorkLog,setWeekWorkLog] = useState<number>(0)
 
     const [isTimerRunning, setIsTimerRunning] = useState(false);
 
     const [dayWorkLog,setDayWorkLog] = useState<any>({})
+
+    useEffect(()=>{
+axios.get('/api/work-logs/week').then(res=>{
+  setWeekWorkLog(res.data)
+})
+    },[])
 
     useEffect(()=>{
       axios.get('/api/work-logs').then(res=>{
@@ -112,11 +91,11 @@ const data = {startTime: newStartTime}
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto flex flex-col gap-4 h-[calc(100vh-80px)] pb-4">
 <div className="grid grid-cols-12 gap-4">
     <div className='col-span-4'>
-    <Card title="" customClassNames='h-full' contentClassNames='flex justify-center items-center'>
-<CountDown run={isTimerRunning} startFrom={8 * 60 * 60 * 1000 - dayWorkLog.totalWorkTime} />
+    <Card title="" customClassNames='h-full' contentClassNames='flex justify-center items-center h-full'>
+<CountDown run={isTimerRunning} startFrom={8 * 60 * 60 * 1000 - dayWorkLog?.totalWorkTime} />
     </Card>
     </div>
     <div className='col-span-4'>
@@ -128,29 +107,32 @@ const data = {startTime: newStartTime}
     </Card>
     </div>
     <div className='col-span-4'>
-    <Card title="">
-hello
+    <Card title="" customClassNames='h-full' contentClassNames='flex flex-col justify-center items-center gap-4 h-full'>
+<WeekCountDown startFrom={weekWorkLog} run={isTimerRunning} />
     </Card>
     </div>
 </div>
-<div className='pt-2'>
-<Card title='Pointage'>
+{
+  dayWorkLog?.WorkLogs?.length > 0 ? 
+<Card title='Pointage' customClassNames='h-full'>
     <TableCmp head={<>
         <div className='col-span-3 text-center'>N°</div>
   <div className='col-span-3 text-center'>DU</div>
   <div className='col-span-3 text-center'>AU</div>
   <div className='col-span-3 text-center'>TEMPS</div>
     </>}>
-{dayWorkLog.WorkLogs?.map((workLog:any,index:number)=><div key={workLog.id} className='grid grid-cols-12 p-3'>
+{dayWorkLog?.WorkLogs?.map((workLog:any,index:number)=><div key={workLog?.id} className='grid grid-cols-12 p-3'>
 <div className='col-span-3 text-center'>{index}</div>
-<div className='col-span-3 text-center'>{workLog.startTime}</div>
-<div className='col-span-3 text-center'>{workLog.endTime ? workLog.endTime : "Still going"}</div>
-<div className='col-span-3 text-center'>{workLog.endTime ? timeDifference(workLog.startTime,workLog.endTime) : "still going"}</div>
+<div className='col-span-3 text-center'>{workLog?.startTime}</div>
+<div className='col-span-3 text-center'>{workLog?.endTime ? workLog.endTime : "Still going"}</div>
+<div className='col-span-3 text-center'>{workLog?.endTime ? timeDifference(workLog?.startTime,workLog?.endTime) : "still going"}</div>
 </div>
 )}
     </TableCmp>
-</Card>
-</div>
+</Card> : <Card title='' customClassNames='h-full flex items-center justify-center'>
+  <div className='text-center font-bold text-2xl max-w-xl'>Vous n'avez pas encore commencé le travail aujourd'hui. Allez, vasi !</div>
+  </Card>
+}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Modal from '../Modal';
-import InputCmp from '../InputCmp';
-import ButtonCmp from '../ButtonCmp';
+import InputCmp from '../Input';
+import ButtonCmp from '../Button';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
