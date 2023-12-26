@@ -1,22 +1,21 @@
-import React, { ChangeEvent, InputHTMLAttributes } from "react";
+import React, { ChangeEvent, SelectHTMLAttributes } from "react";
 
-interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface CustomSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   divClassNames?: string;
   error?: string;
 }
 
-const Input: React.FC<CustomInputProps> = ({
-  type,
+const Select: React.FC<CustomSelectProps> = ({
   label,
-  placeholder,
   name,
   value,
   onChange,
   divClassNames,
   error,
+  children,
 }) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     if (onChange) {
       onChange(e);
     }
@@ -31,17 +30,17 @@ const Input: React.FC<CustomInputProps> = ({
       ) : (
         ""
       )}
-      <input
+      <select
         className={`border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-        type={type ? type : "text"}
-        placeholder={placeholder}
         name={name}
         value={value}
         onChange={handleChange}
-      />
+      >
+        {children}
+      </select>
       <span className="text-red-500">{error ? error : ""}</span>
     </div>
   );
 };
 
-export default Input;
+export default Select;

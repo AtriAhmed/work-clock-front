@@ -1,13 +1,13 @@
-import React, { ChangeEvent, InputHTMLAttributes } from "react";
+import React, { ChangeEvent, TextareaHTMLAttributes } from "react";
 
-interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface CustomTextAreaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   divClassNames?: string;
   error?: string;
 }
 
-const Input: React.FC<CustomInputProps> = ({
-  type,
+const TextArea: React.FC<CustomTextAreaProps> = ({
   label,
   placeholder,
   name,
@@ -16,14 +16,14 @@ const Input: React.FC<CustomInputProps> = ({
   divClassNames,
   error,
 }) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
       onChange(e);
     }
   };
 
   return (
-    <div className={`${divClassNames} flex flex-col gap-1`}>
+    <div className={`${divClassNames} flex flex-col gap-2`}>
       {label ? (
         <label className="block text-gray-700 dark:text-white text-sm font-bold mb-2">
           {label}
@@ -31,9 +31,8 @@ const Input: React.FC<CustomInputProps> = ({
       ) : (
         ""
       )}
-      <input
+      <textarea
         className={`border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-        type={type ? type : "text"}
         placeholder={placeholder}
         name={name}
         value={value}
@@ -44,4 +43,4 @@ const Input: React.FC<CustomInputProps> = ({
   );
 };
 
-export default Input;
+export default TextArea;

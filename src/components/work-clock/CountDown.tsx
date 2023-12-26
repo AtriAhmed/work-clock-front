@@ -8,19 +8,17 @@ interface CountDownProps {
 const CountDown: React.FC<CountDownProps> = ({ startFrom, run }) => {
   const [timerInSeconds, setTimerInSeconds] = useState(startFrom);
 
-  useEffect(()=>{
+  useEffect(() => {
     const currentMilliseconds = Date.now();
-    const elapsedMilliseconds = -1 * (currentMilliseconds - (startFrom + currentMilliseconds));
+    const elapsedMilliseconds =
+      -1 * (currentMilliseconds - (startFrom + currentMilliseconds));
     const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
-    if(elapsedSeconds > 0)
-    setTimerInSeconds(elapsedSeconds);
-  else 
-  setTimerInSeconds(0)
-
-  },[startFrom])
+    if (elapsedSeconds > 0) setTimerInSeconds(elapsedSeconds);
+    else setTimerInSeconds(0);
+  }, [startFrom]);
 
   useEffect(() => {
-    let intervalId:any;
+    let intervalId: any;
 
     // Function to start the countdown
     const startCountdown = () => {
@@ -54,16 +52,19 @@ const CountDown: React.FC<CountDownProps> = ({ startFrom, run }) => {
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
 
-    const formattedTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
+    const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+      minutes
+    ).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
 
     return formattedTime;
   }
 
-  return <div className="w-fit aspect-square flex flex-col justify-center items-center rounded-[50%] border-black border p-4">
-            <div className="font-bold">Encore:</div>
-            <div className="text-2xl">{formatTime(timerInSeconds)}</div>
-          </div>
-   
+  return (
+    <div className="w-fit aspect-square flex flex-col justify-center items-center rounded-[50%] border-black dark:border-white border p-4">
+      <div className="font-bold">Encore:</div>
+      <div className="text-2xl">{formatTime(timerInSeconds)}</div>
+    </div>
+  );
 };
 
 export default CountDown;
